@@ -23,7 +23,7 @@ export default function PropertyGallery({
 
   const isVideoFile = (url: string) => {
     const videoExtensions = [".mp4", ".mov", ".webm", ".avi", ".ogv", ".m4v"];
-    return videoExtensions.some((ext) => url.toLowerCase().endsWith(ext)) || url.toLowerCase().includes("video-") || url.toLowerCase().includes("file-");
+    return videoExtensions.some((ext) => url.toLowerCase().endsWith(ext)) || url.toLowerCase().includes("video-");
   };
 
   const activeMedia = images[activeIndex] || "/placeholder-property.jpg";
