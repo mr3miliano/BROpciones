@@ -1,0 +1,183 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+  background: rgba(10, 15, 24, 0.7) !important; /* Tarjetas más oscuras para legibilidad */
+  backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
+}
+
+.card:hover {
+  border-color: var(--brand-blue-light) !important;
+  transform: translateY(-5px);
+  background: rgba(10, 15, 24, 0.85) !important;
+}
+
+.imageContainer {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  overflow: hidden;
+  background-color: #000;
+}
+
+.image {
+  object-fit: cover;
+  transition: all 0.5s ease;
+  filter: brightness(0.7); /* Oscurecer imagen por defecto */
+}
+
+.card:hover .image {
+  transform: scale(1.05);
+  filter: brightness(0.9);
+}
+
+.badgeContainer {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  z-index: 10;
+}
+
+.statusBadge {
+  font-size: 0.6rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.3rem 0.7rem;
+  border-radius: 9999px;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.statusSale {
+  background: rgba(40, 67, 93, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.statusRent {
+  background: rgba(16, 185, 129, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.typeBadge {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  font-size: 0.6rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.3rem 0.7rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.location {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  background: var(--brand-blue) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  padding: 0.3rem 0.6rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  width: fit-content;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.locationIcon {
+  color: #fff;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.5rem;
+  transition: color 0.2s;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.2;
+}
+
+.price {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 1.25rem;
+}
+
+.specs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  padding-top: 1rem;
+  margin-top: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: #cbd5e1;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.specItem {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  justify-content: center;
+  background: var(--brand-blue) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  padding: 0.4rem 0.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.specIcon {
+  color: #fff;
+}
+
+.detailsBtn {
+  margin-top: 1.25rem;
+  width: 100%;
+  padding: 0.85rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-align: center;
+  text-decoration: none;
+  background: rgba(40, 67, 93, 0.5);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border-radius: 0.75rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.detailsBtn:hover {
+  background: rgba(40, 67, 93, 0.7);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}

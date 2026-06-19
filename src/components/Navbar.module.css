@@ -1,0 +1,119 @@
+.navFixed {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  transition: all 0.4s ease;
+  padding: 1.25rem 0;
+}
+
+.navScrolled {
+  padding: 0.75rem 0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.navContainer {
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logoWrapper {
+  position: relative;
+  width: 8rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+}
+
+.logoImage {
+  object-fit: contain;
+}
+
+.desktopMenu {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .desktopMenu {
+    display: flex;
+  }
+}
+
+.navLink {
+  padding: 0.6rem 1.25rem;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #1a2c3d !important;
+  text-decoration: none;
+  border-radius: 9999px;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.navLink:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.exploreBtn {
+  margin-left: 1rem;
+  background-color: var(--brand-blue);
+  color: #fff !important;
+  padding: 0.75rem 1.75rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+}
+
+.mobileToggleBtn {
+  display: flex;
+  padding: 0.6rem;
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.75rem;
+  color: #1a2c3d;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+@media (min-width: 768px) {
+  .mobileToggleBtn {
+    display: none;
+  }
+}
+
+.mobileMenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.mobileLink {
+  padding: 0.85rem 1rem;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #1a2c3d;
+  text-decoration: none;
+  text-transform: uppercase;
+}

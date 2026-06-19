@@ -1,0 +1,106 @@
+:root {
+  /* Brand Palette */
+  --brand-blue: #28435d;
+  --brand-blue-light: #4a6a8a;
+  --brand-blue-dark: #1a2c3d;
+  
+  /* UI Colors */
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  
+  /* Supremo Glassmorphism Variables */
+  --glass-bg: rgba(10, 15, 24, 0.4); 
+  --glass-blur: blur(40px);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+  
+  /* Navbar Specific */
+  --nav-bg: rgba(255, 255, 255, 0.4);
+  --nav-blur: blur(30px);
+  
+  /* Spacing & Radii */
+  --radius-xl: 3.5rem;
+  --radius-lg: 2rem;
+  --radius-md: 1rem;
+  --container-max: 1280px;
+}
+
+/* RESET SENIOR */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  color: var(--text-primary);
+  scroll-behavior: smooth;
+  overflow-x: hidden; /* Evita desbordamiento horizontal global */
+  background-color: #000;
+}
+
+body {
+  background: transparent !important;
+}
+
+h1, h2, h3, h4, .font-display {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+}
+
+/* Contenedor Fluido */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 1.25rem; /* Padding base para móvil */
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 0 2rem;
+  }
+}
+
+/* CLASE MAESTRA GLASS */
+.glass {
+  background: var(--glass-bg) !important;
+  backdrop-filter: var(--glass-blur) saturate(150%) !important;
+  border: var(--glass-border) !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5) !important;
+}
+
+.glass-card {
+  background: var(--glass-bg) !important;
+  backdrop-filter: var(--glass-blur) saturate(130%) !important;
+  border: var(--glass-border) !important;
+  border-radius: var(--radius-lg);
+}
+
+/* NAVBAR FIJO */
+.nav-glass {
+  background: var(--nav-bg) !important;
+  backdrop-filter: var(--nav-blur) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+/* UTILIDADES */
+.text-brand { color: var(--brand-blue) !important; }
+.text-brand-light { color: var(--brand-blue-light) !important; }
+.bg-brand-gradient { 
+  background: linear-gradient(135deg, var(--brand-blue-light) 0%, var(--brand-blue) 100%) !important; 
+}
+
+img, video {
+  max-width: 100%;
+  height: auto;
+  filter: brightness(0.85);
+}
