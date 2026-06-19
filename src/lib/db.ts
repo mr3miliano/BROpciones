@@ -1,3 +1,6 @@
+import { db } from "./firebase";
+import { collection, getDocs, doc, getDoc, addDoc } from "firebase/firestore";
+
 export interface Property {
   id: string;
   title: string;
@@ -52,23 +55,17 @@ export interface AgentContact {
   avatar: string;
 }
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-
-// Helper para evitar que Localtunnel muestre la pantalla de advertencia ("friendly reminder")
-// al realizar consultas desde el cliente web.
-async function customFetch(url: string, options: RequestInit = {}): Promise<Response> {
-  const headers = new Headers(options.headers || {});
-  headers.set('bypass-tunnel-reminder', 'true');
-  return fetch(url, { ...options, headers });
-}
-
 // --- CRUD PROPIEDADES (PÚBLICO) ---
 
 export async function getProperties(): Promise<Property[]> {
   try {
-    const res = await customFetch(`${API_URL}/properties`);
-    if (!res.ok) throw new Error('Error al obtener propiedades');
-    return await res.json();
+    const querySnapshot = await getDocs(collection(db, "properties"));
+    const list: Property[] = [];
+    querySnapshot.forEach((docSnap) => {
+      list.push(docSnap.data() as Property);
+    });
+    // Ordenar por fecha de creación descendente
+    return list.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   } catch (error) {
     console.error('Error en getProperties:', error);
     return [];
@@ -77,12 +74,12 @@ export async function getProperties(): Promise<Property[]> {
 
 export async function getPropertyById(id: string): Promise<Property | null> {
   try {
-    const res = await customFetch(`${API_URL}/properties/${id}`);
-    if (!res.ok) {
-      if (res.status === 404) return null;
-      throw new Error('Error al obtener propiedad');
+    const docRef = doc(db, "properties", id);
+    const docSnap = await getDoc(docRef);
+    if (!docSnap.exists()) {
+      return null;
     }
-    return await res.json();
+    return docSnap.data() as Property;
   } catch (error) {
     console.error(`Error en getPropertyById (${id}):`, error);
     return null;
@@ -106,10 +103,12 @@ export async function getAgentForProperty(propertyId: string): Promise<AgentCont
       return fallback;
     }
 
-    // 2. Buscar al agente en la lista de usuarios
-    const resUsers = await customFetch(`${API_URL}/users`);
-    if (!resUsers.ok) return fallback;
-    const users: User[] = await resUsers.json();
+    // 2. Buscar al agente en la colección de usuarios
+    const querySnapshot = await getDocs(collection(db, "users"));
+    const users: User[] = [];
+    querySnapshot.forEach((docSnap) => {
+      users.push(docSnap.data() as User);
+    });
     
     const agent = users.find(u => u.id === property.agentId);
     if (!agent) {
@@ -141,17 +140,35 @@ export async function getAgentForProperty(propertyId: string): Promise<AgentCont
 // --- CRUD LEADs / CONSULTAS (PÚBLICO) ---
 
 export async function createInquiry(inquiryData: Omit<Inquiry, 'id' | 'createdAt' | 'status'>): Promise<Inquiry> {
-  const res = await customFetch(`${API_URL}/inquiries`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(inquiryData),
-  });
+  try {
+    let propertyName = '';
+    let agentId = inquiryData.agentId;
 
-  if (!res.ok) {
+    if (inquiryData.propertyId) {
+      const prop = await getPropertyById(inquiryData.propertyId);
+      if (prop) {
+        propertyName = prop.title;
+        if (!agentId && prop.agentId) {
+          agentId = prop.agentId;
+        }
+      }
+    }
+
+    const newInquiryId = `inq-${Date.now()}`;
+    const newInquiry: Inquiry = {
+      ...inquiryData,
+      propertyName: propertyName || inquiryData.propertyName || 'Consulta General',
+      agentId: agentId || null || undefined,
+      id: newInquiryId,
+      status: 'new',
+      createdAt: new Date().toISOString()
+    };
+
+    // Añadir a Firestore usando el ID generado como nombre de documento
+    await addDoc(collection(db, "inquiries"), newInquiry);
+    return newInquiry;
+  } catch (error) {
+    console.error('Error en createInquiry:', error);
     throw new Error('Error al registrar consulta');
   }
-
-  return await res.json();
 }
