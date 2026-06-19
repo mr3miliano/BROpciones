@@ -54,11 +54,19 @@ export interface AgentContact {
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
+// Helper para evitar que Localtunnel muestre la pantalla de advertencia ("friendly reminder")
+// al realizar consultas desde el cliente web.
+async function customFetch(url: string, options: RequestInit = {}): Promise<Response> {
+  const headers = new Headers(options.headers || {});
+  headers.set('bypass-tunnel-reminder', 'true');
+  return fetch(url, { ...options, headers });
+}
+
 // --- CRUD PROPIEDADES (PÚBLICO) ---
 
 export async function getProperties(): Promise<Property[]> {
   try {
-    const res = await fetch(`${API_URL}/properties`);
+    const res = await customFetch(`${API_URL}/properties`);
     if (!res.ok) throw new Error('Error al obtener propiedades');
     return await res.json();
   } catch (error) {
@@ -69,7 +77,7 @@ export async function getProperties(): Promise<Property[]> {
 
 export async function getPropertyById(id: string): Promise<Property | null> {
   try {
-    const res = await fetch(`${API_URL}/properties/${id}`);
+    const res = await customFetch(`${API_URL}/properties/${id}`);
     if (!res.ok) {
       if (res.status === 404) return null;
       throw new Error('Error al obtener propiedad');
@@ -99,7 +107,7 @@ export async function getAgentForProperty(propertyId: string): Promise<AgentCont
     }
 
     // 2. Buscar al agente en la lista de usuarios
-    const resUsers = await fetch(`${API_URL}/users`);
+    const resUsers = await customFetch(`${API_URL}/users`);
     if (!resUsers.ok) return fallback;
     const users: User[] = await resUsers.json();
     
@@ -133,7 +141,7 @@ export async function getAgentForProperty(propertyId: string): Promise<AgentCont
 // --- CRUD LEADs / CONSULTAS (PÚBLICO) ---
 
 export async function createInquiry(inquiryData: Omit<Inquiry, 'id' | 'createdAt' | 'status'>): Promise<Inquiry> {
-  const res = await fetch(`${API_URL}/inquiries`, {
+  const res = await customFetch(`${API_URL}/inquiries`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
